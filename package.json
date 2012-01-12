@@ -16,27 +16,22 @@
     },
     "devices": [
       {
-        "devices": "desktop",
-        "startfile": "app/index.desktop.html",
-        "images": "marketing/preview-desktop.png"
-      },
-      {
         "devices": "phone",
         "startfile": "app/index.phone.html",
         "images":"marketing/preview-phone.png",
-        "screenshots":["marketing/screenshot-phone.png"]
+        "screenshots":["marketing/screenshot-phone-1.png", "marketing/screenshot-phone-2.png", "marketing/screenshot-phone-3.png"]
       },
       {
         "devices": "tablet",
         "startfile": "app/index.tablet.html",
         "images":"marketing/preview-tablet.png",
-        "screenshots":["marketing/screenshot-tablet-portrait.png"]    
+        "screenshots":["marketing/screenshot-tablet-1.png", "marketing/screenshot-tablet-2.png"]  
       },
       {
         "devices": "tv",
         "startfile": "app/index.tv.html",
         "images":"marketing/preview-tv.png",
-        "screenshots":["marketing/screenshot-tv.jpg"]
+        "screenshots":[]
       },
       {
         "devices": "*",

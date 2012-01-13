@@ -81,9 +81,12 @@ return {
   /**
    * @param app : a reference to the current application (in a UITree class, this.app)
    * @param treePosition : (optional) the string depresenting the position of the instanciated fragment in the tree. (need more work on this) 
-   * uiDataMaster
+   * @param uiDataMaster
+   * @param videoPanelType : (default to "video.youtube")
    */
   detail : function(params) {
+    params = params || {};
+    params.videoPanelType = params.videoPanelType || "video.youtube";
 
     return {
       id: 'detail',
@@ -259,7 +262,7 @@ return {
             },
             {
               id: 'player.youtube',
-              type: 'video.youtube',
+              type: params.videoPanelType,
               autoShow: true,
               controls: true,
               noAutoPlay: false

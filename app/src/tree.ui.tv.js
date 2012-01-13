@@ -1,4 +1,4 @@
-Joshfire.define(['joshfire/class', 'joshfire/tree.ui', 'joshfire/uielements/list', 'joshfire/uielements/panel', 'joshfire/uielements/panel.manager', 'joshfire/uielements/button', 'joshfire/adapters/ios/uielements/video.youtube', 'src/ui-components'], function(Class, UITree, List, Panel, PanelManager, Button, Video, UI) {
+Joshfire.define(['joshfire/class', 'joshfire/tree.ui', 'joshfire/uielements/list', 'joshfire/uielements/panel', 'joshfire/uielements/panel.manager', 'joshfire/uielements/button', 'joshfire/adapters/ios/uielements/video.youtube', 'src/ui-components', 'src/ui-fragments', 'joshfire/vendor/underscore'], function(Class, UITree, List, Panel, PanelManager, Button, Video, UI, UIFragments, _) {
 
   return Class(UITree, {
 
@@ -40,37 +40,19 @@ Joshfire.define(['joshfire/class', 'joshfire/tree.ui', 'joshfire/uielements/list
           type: PanelManager,
           uiMaster: '/sidebarleft/menu',
           children: [
-            {
-              id: 'itemList',
-              type: List,
-              orientation: 'left', // left means a list going down
-              loadingTemplate: '<div class="loading"></div>',
-              itemTemplate: '<li id="<%=itemHtmlId%>" data-josh-ui-path="<%= path %>" data-josh-grid-id="<%= item.id %>" ' + 
-                              'class="josh-List joshover item-<%= item.itemType.replace("/", "") %> "' + 
-                              '><%= itemInner %></li>',
-              itemInnerTemplate:
-                '<% if (item.itemType === "Article/Status") { %>' +
-                  UI.tplTweetItem +
-                '<% } else { %>' +
-                  '<div class="preview"><img src="http://placehold.it/200x150" /></div>' + // TODO: replace by item.thumbnail[0].contentURL when we have it
-                  '<div class="textsummary">' +
-                    '<h3><%= item.name %></h3>' +
-                    '<% var desc = item.articleBody || item.description;' +
-                    'if (desc) {' +
-                      'var len = Math.min(300, desc.length);' +
-                      'var truncated = desc.substring(0, len); %>' +
-                      '<p><%= truncated %></p>' +
-                    '<% } %>' +
-                  '</div>' +
-                '<% } %>',
-              beforeGridExit: function(self, direction) {
-                switch (direction) {
-                  case 'left' :
-                    app.ui.moveTo('focus', '/sidebarleft/menu');
-                    break;
+            _.extend(
+              UIFragments.itemList({toGrid: []}),
+              {
+                orientation: 'left', // left means a list going down
+                beforeGridExit: function(self, direction) {
+                  switch (direction) {
+                    case 'left' :
+                      app.ui.moveTo('focus', '/sidebarleft/menu');
+                      break;
+                  }
                 }
               }
-            },
+            ),
             {
               id: 'itemGrid',
               type: List,
@@ -113,13 +95,12 @@ Joshfire.define(['joshfire/class', 'joshfire/tree.ui', 'joshfire/uielements/list
             }
           ]
         },
+        // This is a copy of what you can find in UIFragments.detail, but the code was too different to think about using it
         {
           id: 'detail',
-          type: Panel,
-          htmlClass: 'detailView',          
-          noMouseAutoFocus: true,
-          moveOnFocus: true,
-          loadingTemplate: '<div class="loading"></div>',
+          type: Panel,            
+          htmlClass: 'detailView',
+          loadingTemplate: '<div class="loading"></div>',       
           autoShow: false,
           children: [
             {
@@ -128,27 +109,121 @@ Joshfire.define(['joshfire/class', 'joshfire/tree.ui', 'joshfire/uielements/list
               label: 'Back'
             },
             {
-              id: 'text',
-              type: Panel,
+              // Article and default
+              id: 'article',
+              htmlClass: 'detailViewItem',
               uiDataSync: '/detail',
+              type: Panel,
+              scroller: true, 
               loadingTemplate: '<div class="loading"></div>',
               innerTemplate:
-                '<div class="title"><h1><%= data.name %></h1>' +
-                UI.tplDataAuthor +
-                '<% if (data.articleBody) { print(data.articleBody); } %>',
+                '<div>' +
+                '<div class="title"><h1><% if (data && data.name) { print(data.name); } %></h1>' +
+                  UI.tplDataAuthor +
+                '</div>' +
+                '<div class="body">'+
+                  '<% if (data.articleBody) { print(data.articleBody); } %>' +
+                '</div>' +
+                '</div>',
               onData: function(ui) {
-                var thisEl = app.ui.element('/detail/text').htmlEl;
-                if (ui.data.itemType === 'VideoObject' || ui.data.itemType === 'ImageObject') {
+                var thisEl = app.ui.element('/detail/article').htmlEl;
+                if (ui.data.itemType === 'VideoObject' 
+                    || ui.data.itemType === 'ImageObject' 
+                    || ui.data.itemType === 'Article/Status'
+                    || ui.data.itemType === 'Event'
+                    || (ui.data.itemType === 'Article' && ui.data.url && ui.data.url.indexOf("spreadsheets.google.com") != -1)
+                  ) {
                   $(thisEl).hide();
-                } else {
+                }
+                else {
                   $(thisEl).show();
                 }
               }
             },
             {
-              id: 'video',
+              // Twitter
+              id: 'twitter',
+              htmlClass: 'detailViewItem',                     
               type: Panel,
               uiDataSync: '/detail',
+              scroller: true,                   
+              loadingTemplate: '<div class="loading"></div>',
+              innerTemplate: UI.tplTweetPage,
+              onData: function(ui) {
+                var thisEl = app.ui.element('/detail/twitter').htmlEl;
+                if (ui.data.itemType === 'Article/Status') {
+                  $(thisEl).show();
+                } else {
+                  $(thisEl).hide();
+                }
+              }
+            },
+            {
+              // Google spreadsheets
+              id: 'google',
+              htmlClass: 'detailViewItem',                  
+              type: Panel,                  
+              uiDataSync: '/detail',
+              loadingTemplate: '<div class="loading"></div>',
+              innerTemplate:  '<div class="directory">' +
+                                '<% if (data.image) { %>' +
+                                  '<div class="picture"><img src="<%= data.image.contentURL %>"></div>' +
+                                '<% } %>' +
+                                '<p class="name"><%= data.name %></p>' + 
+                                '<p class="description"><%= data.description %></p>' + 
+                                '<% if (data.articleBody) { %>' +
+                                  '<p class="content"><%= data.articleBody %></p>' +
+                                '<% } %>' +
+                              '</div>',
+              onData: function(ui) {
+                var thisEl = app.ui.element('/detail/google').htmlEl;
+                if (ui.data.itemType === 'Article' && ui.data.url && ui.data.url.indexOf("spreadsheets.google.com") != -1) {
+                  $(thisEl).show();
+                } else {
+                  $(thisEl).hide();
+                }
+              }
+            },
+            {
+              // Flickr
+              id: 'image',
+              type: Panel,
+              htmlClass: 'detailViewItem',                     
+              uiDataSync: '/detail',
+              loadingTemplate: '<div class="loading"></div>',
+              innerTemplate: '<img class="picture-fullscreen" src="<%= data.contentURL %>" alt="" />',
+              onData: function(ui) {
+                var thisEl = app.ui.element('/detail/image').htmlEl;
+                if (ui.data.itemType === 'ImageObject') {
+                  $(thisEl).show();
+                } else {
+                  $(thisEl).hide();
+                }
+              }
+            },
+            {
+              // Event
+              id: 'event',
+              type: Panel,
+              htmlClass: 'detailViewItem',                     
+              uiDataSync: '/detail',
+              loadingTemplate: '<div class="loading"></div>',
+              innerTemplate: UI.tplEventPage,
+              onData: function(ui) {
+                var thisEl = app.ui.element('/detail/event').htmlEl;
+                if (ui.data.itemType === 'Event') {
+                  $(thisEl).show();
+                } else {
+                  $(thisEl).hide();
+                }
+              }
+            },
+            {
+              // Video
+              id: 'video',
+              type: Panel,
+              htmlClass: 'detailViewItem',                     
+              uiDataSync: '/detail',              
               loadingTemplate: '<div class="loading"></div>',
               onData: function(ui) {
                 var thisEl = app.ui.element('/detail/video').htmlEl,
@@ -157,11 +232,11 @@ Joshfire.define(['joshfire/class', 'joshfire/tree.ui', 'joshfire/uielements/list
                 if ((ui.data.itemType === 'VideoObject') && ui.data.publisher && (ui.data.publisher.name === 'Youtube')) {
                   player.playWithStaticUrl({
                     url: ui.data.url.replace('http://www.youtube.com/watch?v=', ''),
-                    width: '480px'
+                    width: '100%'
                   });
-
                   $(thisEl).show();
-                } else {
+                }
+                else {
                   $(thisEl).hide();
                 }
               },
@@ -169,7 +244,7 @@ Joshfire.define(['joshfire/class', 'joshfire/tree.ui', 'joshfire/uielements/list
                 {
                   id: 'title',
                   type: Panel,
-                  uiDataSync: '/detail',                  
+                  uiDataSync: '/detail',
                   innerTemplate:
                     '<div class="title"><h1><%= data.name %></h1>' +
                     UI.tplDataAuthor +
@@ -177,29 +252,13 @@ Joshfire.define(['joshfire/class', 'joshfire/tree.ui', 'joshfire/uielements/list
                 },
                 {
                   id: 'player.youtube',
+                  uiDataSync: '/detail',
                   type: Video,
                   autoShow: true,
                   controls: true,
                   noAutoPlay: false
                 }
               ]
-            },
-            {
-              id: 'twitter',
-              type: Panel,
-              uiDataSync: '/detail',
-              loadingTemplate: '<div class="loading"></div>',
-              innerTemplate:
-                '<div class="tweet"><%= data.name %>' +
-                '<p class="date"><%= data.publishedDate %></p></div>',
-              onData: function(ui) {
-                var thisEl = app.ui.element('/detail/twitter').htmlEl;
-                if (ui.data.itemType === "Article/Status") {
-                  $(thisEl).show();
-                } else {
-                  $(thisEl).hide();
-                }
-              }
             }
           ]
         }

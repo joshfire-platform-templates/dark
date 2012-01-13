@@ -11,8 +11,8 @@
    ],
   "joshfire": {
     "images": {
-      "small":"http://i.imgur.com/XF5iy.png",
-      "big":"http://i.imgur.com/xU1Nn.png"
+      "small":"marketing/image-small.png",
+      "big":"marketing/image-big.png"
     },
     "devices": [
       {

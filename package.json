@@ -32,10 +32,6 @@
         "startfile": "app/index.tv.html",
         "images":"marketing/preview-tv.png",
         "screenshots":[]
-      },
-      {
-        "devices": "*",
-        "startfile": "app/index.html"
       }
     ],
     "datasources": {

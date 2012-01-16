@@ -40,7 +40,7 @@ ul {
   background-image: linear-gradient(bottom, rgb(10,10,10) 20%, rgb(66,66,66) 80%);
 background-image: -o-linear-gradient(bottom, rgb(10,10,10) 20%, rgb(66,66,66) 80%);
 background-image: -webkit-linear-gradient(bottom, rgb(10,10,10) 20%, rgb(66,66,66) 80%);
-background-image: -webkit-gradient(	linear,	left bottom,	left top,
+background-image: -webkit-gradient( linear, left bottom,  left top,
 color-stop(0.2, rgb(10,10,10)), color-stop(0.8, rgb(66,66,66)));
   
   
@@ -325,24 +325,24 @@ height: 300px;
 
 /* Details RSS CSS */
 
-.josh-id-detail .josh-id-detail_text {
+.josh-id-detail .detailViewItem {
 padding: 7%;
 
 
 }
 
-.josh-id-detail .josh-id-detail_text .title H1 {
+.josh-id-detail .detailViewItem .title H1 {
   font-size: 60px;
   text-shadow: 3px 3px #111;
   line-height: 80px;
   }
 
-.josh-id-detail .josh-id-detail_text .title p {
+.josh-id-detail .detailViewItem .title p {
   text-shadow: 2px 2px #111;
   font-size: 40px;
 }
 
-.josh-id-detail .josh-id-detail_text p {
+.josh-id-detail .detailViewItem p {
   font-size: 48px;
   line-height: 82px;
   text-shadow: 2px 2px #111;

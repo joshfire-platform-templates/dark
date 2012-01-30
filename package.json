@@ -26,12 +26,6 @@
         "startfile": "app/index.tablet.html",
         "images":"marketing/preview-tablet.png",
         "screenshots":["marketing/screenshot-tablet-1.png", "marketing/screenshot-tablet-2.png"]  
-      },
-      {
-        "devices": "tv",
-        "startfile": "app/index.tv.html",
-        "images":"marketing/preview-tv.png",
-        "screenshots":[]
       }
     ],
     "datasources": {

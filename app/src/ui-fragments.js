@@ -15,7 +15,7 @@ return {
       gridIf += " || item.itemType === '" + params.toGrid[i] + "'";
     }
 
-    return {
+    return {  
       id: 'itemList',
       scroller: true,
       scrollOptions:{

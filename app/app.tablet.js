@@ -14,6 +14,7 @@ Joshfire.define(['joshfire/app', 'joshfire/class', './src/tree.data', './src/tre
           itemList = _this.ui.element('/content/itemList'),
           detailPanel = _this.ui.element('/content/detail'),
           twitterPanel = _this.ui.element('/content/detail/twitter'),
+          articlePanel = _this.ui.element('/content/detail/article'),
           title = _this.ui.element('/header/title');
 
       this.splash = new Splash();
@@ -74,6 +75,11 @@ Joshfire.define(['joshfire/app', 'joshfire/class', './src/tree.data', './src/tre
           return href ? '<a href="' + href + '" title="' + href + '" rel="external" target="_blank">' + text + '<\/a>' : text;
         }
         $('.linkify').html( linkify( $('.linkify').text(), {callback: cb} ) );
+      });
+
+      // make sure links are target=_blank in articles
+      articlePanel.subscribe('afterRefresh', function(event, data) {
+        $('a', articlePanel.htmlEl).attr('target', '_blank').attr('rel', 'external');
       });
 
       // Open item when selected

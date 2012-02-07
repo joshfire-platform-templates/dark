@@ -1,7 +1,7 @@
 img.applogo {
-  max-height: 90%;
+  max-height: 80%;
   max-width: 200px;
-  margin: 7px;
+  margin: 5px;
 }
 
 
@@ -97,10 +97,18 @@ li.mainitemlist.list .abstract {
 
 li.mainitemlist.list .preview {
   position: absolute;
+  left: 0;
+  top: 0;
+  width: 90px;
+  overflow: hidden;
+
 }
 
 li.mainitemlist.list .preview img {
+  max-height: 80px;
+  /*
   height: 74px;
+  */
 }
 
 li.mainitemlist .thumbnail {

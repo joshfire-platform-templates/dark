@@ -189,7 +189,7 @@ line-height: 22px;
 color: #000;
 }
 
-#defaultApp__content__detail  .josh-id-content_detail_article .body {
+#defaultApp__content__detail .josh-id-content_detail_article .body {
 background: rgba(255,255,255,0.8);
 padding: 15px;
 border: 1px solid #CFCFCF;
@@ -200,6 +200,14 @@ border-radius: 5px;
 box-shadow: 0 1px rgba(255,255,255,0.7), inset 0 1px rgba(0,0,0,0.2);
 }
 
+#defaultApp__content__detail .josh-id-content_detail_article .body p{
+}
+
+#defaultApp__content__detail .josh-id-content_detail_article .body p img{
+  max-width: 50%;
+  height: auto !important;
+  margin: 3px 1px;
+}
 
 /* video */
 
@@ -242,7 +250,7 @@ margin: 20px;
 
 .detailView .tweet .tweet-header .username {
   color: #fff;
-  margin: 0 95px;
+  margin: 0 20px 0 95px;
   padding-top: 20px;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 20px;

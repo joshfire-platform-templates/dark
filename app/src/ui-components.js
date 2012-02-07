@@ -54,13 +54,25 @@ Joshfire.define(['joshfire/uielements/list', 'joshfire/uielements/panel', 'joshf
 
     tplEventItem : '<div class="event">' +
                     '<% var d = toDate(item.startDate); %>' + 
-                    '<p class="startDate"><%= d.toTimeString().substring(0, 5) %></p>' +     
-                    '<p class="content"><%= item.name %></p>' +                 
+                    '<p class="startDate">' +
+                      '<span class="date"><%= d.toDateString() %></span>' +                     
+                      '<span class="localedate"><%= d.toLocaleDateString() %></span>' + 
+                    '</p>' +
+                    '<p class="startTime">' +
+                      '<%= d.toTimeString().substring(0, 5) %>' + 
+                    '</p>' +
+                    '<p class="content"><%= item.name %></p>' +
                   '</div>',
 
     tplEventPage : '<div class="event">' +
                     '<div class="coords">' +
-                      '<p class="startDate"><%= data.startDate ? toDate(data.startDate).toTimeString().substring(0, 5) : "" %></p>' + 
+                      '<p class="Day">' + 
+                        '<span class="date"><%= data.startDate ? toDate(data.startDate).toDateString() : "" %></span>' + 
+                        '<span class="localedate"><%= data.startDate ? toDate(data.startDate).toLocaleDateString() : "" %></span>' + 
+                      '</p>' +
+                      '<p class="startDate">'+
+                        '<span class="time"><%= data.startDate ? toDate(data.startDate).toTimeString().substring(0, 5) : "" %></span>' +                         
+                      '</p>' + 
                       '<p class="endDate"><%= data.endDate ? toDate(data.endDate).toTimeString().substring(0, 5) : "" %></p>' +                       
                       '<% if (data.location) { %>' + 
                         '<p class="location"><%= data.location.name %></p>' +  

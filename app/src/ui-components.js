@@ -54,11 +54,11 @@ Joshfire.define(['joshfire/uielements/list', 'joshfire/uielements/panel', 'joshf
 
     tplEventItem : '<div class="event">' +
                     '<% var d = toDate(item.startDate); %>' + 
-                    '<p class="startDate">' +
+                    '<p class="startDateDay">' +
                       '<span class="date"><%= d.toDateString() %></span>' +                     
                       '<span class="localedate"><%= d.toLocaleDateString() %></span>' + 
                     '</p>' +
-                    '<p class="startTime">' +
+                    '<p class="startDate">' +
                       '<%= d.toTimeString().substring(0, 5) %>' + 
                     '</p>' +
                     '<p class="content"><%= item.name %></p>' +

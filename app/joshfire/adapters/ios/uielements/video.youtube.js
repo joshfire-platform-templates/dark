@@ -47,13 +47,10 @@ Joshfire.define(['joshfire/uielements/video', 'joshfire/class', 'joshfire/vendor
       //TODO configurable aspect ratio.
       var height = parseInt(width * 9 / 16);
 
-      // Insertion
-      this.htmlEl.innerHTML = '<object width=\"' + width + '\" height=\"' + height + '\">' + //
-          '<param name=\"movie\" value=\"http://www.youtube.com/v/' + options.url + '&f=gdata_videos\"></param>' +
-          '<param name=\"wmode\" value=\"transparent\"></param>' +
-          '<embed src=\"http://www.youtube.com/v/' + options.url + '&f=gdata_videos\"' +
-          'type=\"application/x-shockwave-flash\" wmode=\"transparent\" width=\"' + width + '\" height=\"' + height + '\"></embed>' + //
-          '</object>';
+      // options.url : was and need to be the ID of the Youtube video
+      // the src should be src="http://www.youtube.com/embed/khWXdkryBE4?rel=0"
+      this.htmlEl.innerHTML = '<iframe width="' + width + '" height="' + height + '" ' + 
+          'src="http://www.youtube.com/embed/' + options.url + '?rel=0" frameborder="0" allowfullscreen></iframe>';
 
     },
 

@@ -1,3 +1,5 @@
+/* event-css */
+
 img.applogo {
   max-height: 80%;
   max-width: 200px;
@@ -93,6 +95,10 @@ li.mainitemlist.list .abstract {
   white-space: normal;
   margin-right: 70px;
   display: none;
+}
+
+li.mainitemlist.list .abstract p, li.mainitemlist.list .abstract img, li.mainitemlist.list .abstract p img {
+margin: 0;
 }
 
 li.mainitemlist.list .preview {
@@ -275,27 +281,58 @@ margin: 20px;
 
 /* Liste event */
 
-.event {
+.josh-id-content_itemList li.item-Event{
+  min-height: 40px;
+  padding: 12px 6px 10px 8px;
+}
+
+.josh-id-content_itemList li.item-Event .event {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 15px; 
 }
 
-.event .startDate {
-  position: absolute;
-  font-size: 18px;
+.josh-id-content_itemList li.item-Event .event p{
+  margin: 0;
+  line-height: 22px;
+}
+
+/* former called .startDate in default */
+.josh-id-content_itemList li.item-Event .event .startDateDay{
+  
+  font-size: 16px;
   font-weight: 600;
+  /*
+  position: absolute;
   margin-top: 7px;
+  */
+  line-height: 18px;
+  margin-bottom: 4px;
 }
 
 
+.josh-id-content_itemList li.item-Event .event .startDateDay .date{
+}
 
-.event .content {
+.josh-id-content_itemList li.item-Event .event .startDateDay .localedate{
+display: none;
+}
+
+/* former called .startTime in default */
+.josh-id-content_itemList li.item-Event .event .startDate{
+  float: left;
+  margin-right: 10px;
+}
+
+.josh-id-content_itemList li.item-Event .event .content {
   font-size: 18px;
   color: #666;
   font-weight: 300;
+  margin: 0px 4px 0 50px;
 }
 
-.endDate {
+
+
+.josh-id-content_itemList li.item-Event .endDate {
 	position: absolute;
 	font-size: 18px;
 	color: #666;
@@ -304,7 +341,12 @@ margin: 20px;
 }
 
 
-#defaultApp__content__detail__event .event{
+
+
+/* DETAIL EVENT */
+
+
+.josh-id-content_detail_event .event{
 	background-image: -webkit-linear-gradient(left, rgba(255,255,255,0.9)0%,rgba(194,194,194,0.7) 100%), url('../images/fond-calendar.png');
 	
  background-image: -webkit-gradient(
@@ -320,27 +362,9 @@ color-stop(1.0, rgba(194,194,194,0.7))
     left: 0;
     right: 0;
     top: 0;
-    
-	
 }
 
-
-
-
-
-
-
-
-
-/* DETAIL EVENT */
-
-
-.detailView .event {
- 
-  padding: 8px 20px 0 20px;
-}
-
-.detailView .event .location{
+.josh-id-content_detail_event .event .location{
    position: absolute;
 
    font-size: 18px;
@@ -348,45 +372,90 @@ color-stop(1.0, rgba(194,194,194,0.7))
    font-weight: 300;
 }
 
+
+.josh-id-content_detail_event .event {
+  padding: 8px 20px 0 20px;
 }
 
-.detailView .event .startDate {
-  position: absolute;
+.josh-id-content_detail_event .event p{
+  font-size: 18px;
+  line-height: 22px;
+}
+
+
+.josh-id-content_detail_event .event .Day{
+}
+
+.josh-id-content_detail_event .event .Day .date{
+  font-size: 15px;
+}
+
+.josh-id-content_detail_event .event .Day .localedate{
+  display:none;
+}
+
+
+
+.josh-id-content_detail_event .event .startDate {
+  margin: 0;
+  float: left;
+  margin-right: 10px;
+}
+
+
+
+
+
+.josh-id-content_detail_event .event .endDate {
+}
+
+.josh-id-content_detail_event .event .location{
+   padding: 23px 0 0 0;
+}
+
+
+
+
+.josh-id-content_detail_event .event .startDate {
+  /*position: absolute;*/
+  
   color: #666;
   margin-left: 0;
 
 }
 
-.detailView .event .endDate {
-	position: absolute;
-	font-size: 18px;
-	color: #666;
-	font-weight: 300;
-
+.josh-id-content_detail_event .event .endDate {
+  font-size: 18px;
+  color: #666;
+  font-weight: 300;
+  margin-left: 60px;
 }
 
-.detailView .event .content {
-
+.josh-id-content_detail_event .event .content {
   padding: 0 12px 0 60px;
-
 }
 
 
 
-.detailView .event .event-content{
+.josh-id-content_detail_event .event .event-content{
 	margin: 0px 0 0 0;
 }
 
 
-.detailView .event .name{
-	margin-top: 85px;
+.josh-id-content_detail_event .event .name{
+	margin-top: 25px;
 
 }
 
 
-.detailView .event .description{
+.josh-id-content_detail_event .event .description{
 	margin: 5px 0 0 0;
 }
+
+
+
+
+
 
 
 

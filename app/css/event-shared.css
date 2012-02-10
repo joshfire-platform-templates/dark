@@ -101,13 +101,14 @@ li.mainitemlist.list .abstract p, li.mainitemlist.list .abstract img, li.mainite
 margin: 0;
 }
 
+
 li.mainitemlist.list .preview {
   position: absolute;
   left: 0;
   top: 0;
   width: 90px;
   overflow: hidden;
-
+  background: rgba(0, 0, 0, 0.2)url(../images/placeholder-event.png) no-repeat center;
 }
 
 li.mainitemlist.list .preview img {
@@ -123,6 +124,12 @@ li.mainitemlist .thumbnail {
   height: 74px;
   background-size: cover;
 }
+
+
+/* List BlogPosting */
+
+
+/* List twitter */
 
 li.mainitemlist.list .tweet {
   margin: 15px;

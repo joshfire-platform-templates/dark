@@ -330,9 +330,13 @@ vertical-align: middle;
 }
 
 li.mainitemlist.item-BlogPosting .preview img{
+
 max-height: 220%;
-max-width: 150%;
+max-width: 300%;
+background-color: #EEE;
+
 }
+
 
 
 /* Liste EVENT */

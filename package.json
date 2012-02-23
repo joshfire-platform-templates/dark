@@ -1,7 +1,7 @@
 {
   "name": "dark",
-  "version": "0.0.3",
-  "fullName": "Dark template",
+  "version": "1.0",
+  "fullName": "Dark",
   "description": "A template with a dark color scheme. It has the same features than the \"Base\" template. It can be used for any purpose.",
   "keywords": [
      "base",

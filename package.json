@@ -1,13 +1,13 @@
 {
-  "name": "event",
+  "name": "dark",
   "version": "0.0.3",
-  "fullName": "Event template",
-  "description": "Template designed for events. Use it for conferences, seminars, concerts... It features a unique and slick design and integrates well with your brand logo. Use it to give informations about the event: map, schedule, directory, about page and news. Populate the photo and video gallery with pictures from the event.",
+  "fullName": "Dark template",
+  "description": "A template with a dark color scheme. It has the same features than the \"Base\" template. It can be used for any purpose.",
   "keywords": [
-     "event",
-     "conference",
-     "concert",
-     "seminar"
+     "base",
+     "dark",
+     "default",
+     "black"
    ],
   "joshfire": {
     "images": {

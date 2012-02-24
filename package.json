@@ -25,7 +25,7 @@
         "devices": "tablet",
         "startfile": "app/index.tablet.html",
         "images":"marketing/preview-tablet.png",
-        "screenshots":["marketing/screenshot-tablet-1.png", "marketing/screenshot-tablet-2.png"]  
+        "screenshots":["marketing/screenshot-tablet-1.png", "marketing/screenshot-tablet-2.png", "marketing/screenshot-tablet-3.png"]  
       }
     ],
     "datasources": {

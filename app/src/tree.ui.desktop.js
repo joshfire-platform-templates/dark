@@ -57,7 +57,7 @@ Joshfire.define(['joshfire/class', 'joshfire/tree.ui', 'joshfire/uielements/list
                     '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>',
                   onData: function(ui) {
                     var thisEl = app.ui.element('/content/detail/text').htmlEl;
-                    if (ui.data.itemType !== 'VideoObject') {
+                    if ((ui.data['@type'] || ui.data.itemType) !== 'VideoObject') {
                       $(thisEl).show();
                     } else {
                       $(thisEl).hide();
@@ -74,7 +74,7 @@ Joshfire.define(['joshfire/class', 'joshfire/tree.ui', 'joshfire/uielements/list
                     var thisEl = app.ui.element('/content/detail/video').htmlEl,
                         player = app.ui.element('/content/detail/video/player.youtube');
 
-                    if ((ui.data.itemType === 'VideoObject') && ui.data.publisher && (ui.data.publisher.name === 'Youtube')) {
+                    if (((ui.data['@type'] || ui.data.itemType) === 'VideoObject') && ui.data.publisher && (ui.data.publisher.name === 'Youtube')) {
                       player.playWithStaticUrl({
                         url: ui.data.url.replace('http://www.youtube.com/watch?v=', ''),
                         width: '480px'

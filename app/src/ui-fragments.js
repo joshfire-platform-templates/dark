@@ -10,9 +10,9 @@ return {
     params = params || {};
     params.toGrid = params.toGrid || ['ImageObject'];
     
-    var gridIf = "item.itemType === '" + params.toGrid[0] + "'";
+    var gridIf = "(item['@type'] || item.itemType) === '" + params.toGrid[0] + "'";
     for (var i = 1; i < params.toGrid.length; i ++) {
-      gridIf += " || item.itemType === '" + params.toGrid[i] + "'";
+      gridIf += " || (item['@type'] || item.itemType) === '" + params.toGrid[i] + "'";
     }
 
     return {  
@@ -26,7 +26,7 @@ return {
       loadingTemplate: '<div class="loading"></div>',
       itemTemplate: "<li id='<%=itemHtmlId%>' " + 
                     "data-josh-ui-path='<%= path %>' data-josh-grid-id='<%= item.id %>'" + 
-                    "class='josh-List joshover item-<%= item.itemType.replace('/', '') %> mainitemlist " + 
+                    "class='josh-List joshover item-<%= (item['@type'] || item.itemType).replace('/', '') %> mainitemlist " + 
                     // grid view
                     "<% if (" + gridIf + ") { %>" +
                       " grid" +
@@ -38,13 +38,13 @@ return {
                     "<%= itemInner %>" + 
                     "</li>",
       itemInnerTemplate:
-        '<% if (item.itemType === "ImageObject") { %>' +
+        '<% if ((item["@type"] || item.itemType) === "ImageObject") { %>' +
           UI.tplItemThumbnail +
-        '<% } else if (item.itemType === "Article/Status") { %>' +
+        '<% } else if ((item["@type"] || item.itemType) === "Article/Status") { %>' +
           UI.tplTweetItem +
-        '<% } else if (item.itemType === "Event") { %>' +
+        '<% } else if ((item["@type"] || item.itemType) === "Event") { %>' +
           UI.tplEventItem +   
-        '<% } else if (item.itemType === "Article" && item.url && item.url.indexOf("spreadsheets.google.com") != -1) { %>' +
+        '<% } else if ((item["@type"] || item.itemType) === "Article" && item.url && item.url.indexOf("spreadsheets.google.com") != -1) { %>' +
           '<div class="directory">' +
             UI.tplItemThumbnail +
             '<p class="name"><%= item.name %></p>' + 
@@ -121,11 +121,12 @@ return {
             '</div>',
           onData: function(ui) {
             var thisEl = params.app.ui.element(params.treePosition + '/detail/article').htmlEl;
-            if (ui.data.itemType === 'VideoObject' 
-                || ui.data.itemType === 'ImageObject' 
-                || ui.data.itemType === 'Article/Status'
-                || ui.data.itemType === 'Event'
-                || (ui.data.itemType === 'Article' && ui.data.url && ui.data.url.indexOf("spreadsheets.google.com") != -1)
+            var type = ui.data['@type'] || ui.data.itemType;
+            if (type === 'VideoObject' ||
+              type === 'ImageObject' ||
+              type === 'Article/Status' ||
+              type === 'Event' ||
+              (type === 'Article' && ui.data.url && ui.data.url.indexOf("spreadsheets.google.com") != -1)
               ) {
               $(thisEl).hide();
             }
@@ -151,7 +152,7 @@ return {
           innerTemplate: UI.tplTweetPage,
           onData: function(ui) {
             var thisEl = params.app.ui.element(params.treePosition + '/detail/twitter').htmlEl;
-            if (ui.data.itemType === 'Article/Status') {
+            if ((ui.data['@type'] || ui.data.itemType) === 'Article/Status') {
               $(thisEl).show();
             } else {
               $(thisEl).hide();
@@ -184,7 +185,7 @@ return {
                           '</div>',
           onData: function(ui) {
             var thisEl = params.app.ui.element(params.treePosition + '/detail/google').htmlEl;
-            if (ui.data.itemType === 'Article' && ui.data.url && ui.data.url.indexOf("spreadsheets.google.com") != -1) {
+            if ((ui.data['@type'] || ui.data.itemType) === 'Article' && ui.data.url && ui.data.url.indexOf("spreadsheets.google.com") != -1) {
               $(thisEl).show();
             } else {
               $(thisEl).hide();
@@ -208,7 +209,7 @@ return {
           innerTemplate: '<img class="picture-fullscreen" src="<%= data.contentURL %>" alt="" />',
           onData: function(ui) {
             var thisEl = params.app.ui.element(params.treePosition + '/detail/image').htmlEl;
-            if (ui.data.itemType === 'ImageObject') {
+            if ((ui.data['@type'] || ui.data.itemType) === 'ImageObject') {
               $(thisEl).show();
             } else {
               $(thisEl).hide();
@@ -232,7 +233,7 @@ return {
           innerTemplate: UI.tplEventPage,
           onData: function(ui) {
             var thisEl = params.app.ui.element(params.treePosition + '/detail/event').htmlEl;
-            if (ui.data.itemType === 'Event') {
+            if ((ui.data['@type'] || ui.data.itemType) === 'Event') {
               $(thisEl).show();
             } else {
               $(thisEl).hide();
@@ -257,7 +258,7 @@ return {
             var thisEl = params.app.ui.element(params.treePosition + '/detail/video').htmlEl,
                 player = params.app.ui.element(params.treePosition + '/detail/video/player.youtube');
 
-            if ((ui.data.itemType === 'VideoObject') && ui.data.publisher && (ui.data.publisher.name === 'Youtube')) {
+            if (((ui.data['@type'] || ui.data.itemType) === 'VideoObject') && ui.data.publisher && (ui.data.publisher.name === 'Youtube')) {
               player.playWithStaticUrl({
                 url: ui.data.url.replace('http://www.youtube.com/watch?v=', ''),
                 width: '100%'

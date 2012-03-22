@@ -53,11 +53,11 @@ Joshfire.define(['joshfire/class', 'joshfire/tree.ui', 'joshfire/uielements/list
                   loadingTemplate: '<div class="loading"></div>',
                   itemTemplate: "<li id='<%=itemHtmlId%>' " + 
                             "data-josh-ui-path='<%= path %>' data-josh-grid-id='<%= item.id %>'" + 
-                            "class='josh-List joshover item-<%= item.itemType.replace('/', '') %> mainitemlist " + 
+                            "class='josh-List joshover item-<%= (item['@type'] || item.itemType).replace('/', '') %> mainitemlist " + 
                             // grid view
-                            "<% if (item.itemType === 'ImageObject') { %>" +
+                            "<% if ((item['@type'] || item.itemType) === 'ImageObject') { %>" +
                               "grid" +
-                            "<% } else if (item.itemType === 'VideoObject') { %>" +
+                            "<% } else if ((item['@type'] || item.itemType) === 'VideoObject') { %>" +
                             // two rows
                               "rows" +
                             "<% } else { %>" +
@@ -68,16 +68,16 @@ Joshfire.define(['joshfire/class', 'joshfire/tree.ui', 'joshfire/uielements/list
                             "<%= itemInner %>" + 
                             "</li>",
                   itemInnerTemplate:
-                    '<% if (item.itemType === "VideoObject") { %>' +
+                    '<% if ((item["@type"] || item.itemType) === "VideoObject") { %>' +
                       '<div class="title"><%= item.name %></div>' +
                       UI.getItemDescriptionTemplate(130) +
                       UI.tplItemPreview +
                       '<span class="list-arrow"></span>' +
-                    '<% } else if (item.itemType === "ImageObject") { %>' +
+                    '<% } else if ((item["@type"] || item.itemType) === "ImageObject") { %>' +
                       UI.tplItemThumbnail +
-                    '<% } else if (item.itemType === "Article/Status") { %>' +
+                    '<% } else if ((item["@type"] || item.itemType) === "Article/Status") { %>' +
                       UI.tplTweetItem +
-                    '<% } else if (item.itemType === "Event") { %>' +
+                    '<% } else if ((item["@type"] || item.itemType) === "Event") { %>' +
                       UI.tplEventItem +                      
                     '<% } else { %>' +
                       '<%= item.name %><span class="list-arrow"></span>' +
@@ -104,10 +104,11 @@ Joshfire.define(['joshfire/class', 'joshfire/tree.ui', 'joshfire/uielements/list
                         '<% if (data.articleBody) { print(data.articleBody); } %>',
                       onData: function(ui) {
                         var thisEl = app.ui.element('/sidebarright/content/detail/article').htmlEl;
-                        if (ui.data.itemType === 'VideoObject'
-                         || ui.data.itemType === 'ImageObject'
-                         || ui.data.itemType === 'Event'
-                         || ui.data.itemType === 'Article/Status'
+                        var type = ui.data['@type'] || ui.data.itemType;
+                        if (type === 'VideoObject' ||
+                          type === 'ImageObject' ||
+                          type === 'Event' ||
+                          type === 'Article/Status'
                        ) {
                           $(thisEl).hide();
                         }
@@ -126,8 +127,7 @@ Joshfire.define(['joshfire/class', 'joshfire/tree.ui', 'joshfire/uielements/list
                       innerTemplate: UI.tplTweetPage,
                       onData: function(ui) {
                         var thisEl = app.ui.element('/sidebarright/content/detail/twitter').htmlEl;
-                        console.log(ui.data.itemType);
-                        if (ui.data.itemType === 'Article/Status') {
+                        if ((ui.data['@type'] || ui.data.itemType) === 'Article/Status') {
                           $(thisEl).show();
                         } else {
                           $(thisEl).hide();
@@ -144,7 +144,7 @@ Joshfire.define(['joshfire/class', 'joshfire/tree.ui', 'joshfire/uielements/list
                       innerTemplate: '<img src="<%= data.contentURL %>" />',
                       onData: function(ui) {
                         var thisEl = app.ui.element('/sidebarright/content/detail/image').htmlEl;
-                        if (ui.data.itemType === 'ImageObject') {
+                        if ((ui.data['@type'] || ui.data.itemType) === 'ImageObject') {
                           $(thisEl).show();
                         } else {
                           $(thisEl).hide();
@@ -161,7 +161,7 @@ Joshfire.define(['joshfire/class', 'joshfire/tree.ui', 'joshfire/uielements/list
                       innerTemplate: UI.tplEventPage,
                       onData: function(ui) {
                         var thisEl = app.ui.element('/sidebarright/content/detail/event').htmlEl;
-                        if (ui.data.itemType === 'Event') {
+                        if ((ui.data['@type'] || ui.data.itemType) === 'Event') {
                           $(thisEl).show();
                         } else {
                           $(thisEl).hide();
@@ -179,10 +179,10 @@ Joshfire.define(['joshfire/class', 'joshfire/tree.ui', 'joshfire/uielements/list
                         var thisEl = app.ui.element('/sidebarright/content/detail/video').htmlEl,
                             player = app.ui.element('/sidebarright/content/detail/video/player.youtube');
 
-                        if ((ui.data.itemType === 'VideoObject') && ui.data.publisher && (ui.data.publisher.name === 'Youtube')) {
+                        if (((ui.data['@type'] || ui.data.itemType) === 'VideoObject') && ui.data.publisher && (ui.data.publisher.name === 'Youtube')) {
                           player.playWithStaticUrl({
                             url: ui.data.url.replace('http://www.youtube.com/watch?v=', ''),
-                            width: '480px',
+                            width: '480px'
                           });
 
                           $(thisEl).show();

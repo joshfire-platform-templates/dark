@@ -1,0 +1,3 @@
+[submodule "app/src/lib/mediaplayerlib"]
+	path = app/src/lib/mediaplayerlib
+	url = git@github.com:joshfire/mediaplayerlib.git

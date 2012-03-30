@@ -254,15 +254,15 @@ return {
           },        
           loadingTemplate: '<div class="loading"></div>',
           uiDataMaster: params.uiDataMaster,
+          innerTemplate:
+            '<div class="title"><h1><%= data.name %></h1>' +
+            UI.tplDataAuthor +
+            '</div>' +
+            '<div class="videoplayer"></div>',
           onData: function(ui) {
-            var thisEl = params.app.ui.element(params.treePosition + '/detail/video').htmlEl,
-                player = params.app.ui.element(params.treePosition + '/detail/video/player.youtube');
+            var thisEl = params.app.ui.element(params.treePosition + '/detail/video').htmlEl;
 
-            if (((ui.data['@type'] || ui.data.itemType) === 'VideoObject') && ui.data.publisher && (ui.data.publisher.name === 'Youtube')) {
-              player.playWithStaticUrl({
-                url: ui.data.url.replace('http://www.youtube.com/watch?v=', ''),
-                width: '100%'
-              });
+            if (((ui.data['@type'] || ui.data.itemType) === 'VideoObject')) {
               $(thisEl).show();
             }
             else {
@@ -270,26 +270,12 @@ return {
             }
           },
           onAfterRefresh : function() {
-            params.app.ui.element(params.treePosition + '/detail/video').insertScroller();
-          },
-          children: [
-            {
-              id: 'title',
-              type: Panel,
-              uiDataMaster: params.uiDataMaster,
-              innerTemplate:
-                '<div class="title"><h1><%= data.name %></h1>' +
-                UI.tplDataAuthor +
-                '</div>'
-            },
-            {
-              id: 'player.youtube',
-              type: params.videoPanelType,
-              autoShow: true,
-              controls: true,
-              noAutoPlay: false
-            }
-          ]
+            var element = params.app.ui.element(params.treePosition + '/detail/video');
+            mediaFactory.resolve(element.data, { width: "100%" }).toHtml(function(err, html) {
+              $('.videoplayer', $(element.htmlEl)).html(html);
+            });
+            element.insertScroller();
+          }
         }
       ]
     };

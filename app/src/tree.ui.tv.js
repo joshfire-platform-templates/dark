@@ -61,7 +61,7 @@ Joshfire.define(['joshfire/class', 'joshfire/tree.ui', 'joshfire/uielements/list
                               'class="josh-List joshover item-<%= item["@type"] || item.itemType %> "' + 
                               '><%= itemInner %></li>',
               itemInnerTemplate:
-                '<% if (item["@type"] || item.itemType) === "VideoObject" || (item["@type"] || item.itemType) === "ImageObject") { %>' +
+                '<% if ((item["@type"] || item.itemType) === "VideoObject" || (item["@type"] || item.itemType) === "ImageObject") { %>' +
                   UI.tplItemPreview +
                   '<div class="title"><%= item.name %></div>' +
                 '<% } %>',
@@ -226,40 +226,24 @@ Joshfire.define(['joshfire/class', 'joshfire/tree.ui', 'joshfire/uielements/list
               htmlClass: 'detailViewItem',                     
               uiDataSync: '/detail',              
               loadingTemplate: '<div class="loading"></div>',
+              innerTemplate:
+                '<div class="videoplayer"></div>',
               onData: function(ui) {
-                var thisEl = app.ui.element('/detail/video').htmlEl,
-                    player = app.ui.element('/detail/video/player.youtube');
+                var thisEl = app.ui.element('/detail/video').htmlEl;
 
-                if (((ui.data['@type'] || ui.data.itemType) === 'VideoObject') && ui.data.publisher && (ui.data.publisher.name === 'Youtube')) {
-                  player.playWithStaticUrl({
-                    url: ui.data.url.replace('http://www.youtube.com/watch?v=', ''),
-                    width: '100%'
-                  });
+                if ((ui.data['@type'] || ui.data.itemType) === 'VideoObject') {
                   $(thisEl).show();
                 }
                 else {
                   $(thisEl).hide();
                 }
               },
-              children: [
-                {
-                  id: 'title',
-                  type: Panel,
-                  uiDataSync: '/detail',
-                  innerTemplate:
-                    '<div class="title"><h1><%= data.name %></h1>' +
-                    UI.tplDataAuthor +
-                    '</div>'
-                },
-                {
-                  id: 'player.youtube',
-                  uiDataSync: '/detail',
-                  type: Video,
-                  autoShow: true,
-                  controls: true,
-                  noAutoPlay: false
-                }
-              ]
+              onAfterRefresh : function() {
+                var element = app.ui.element('/detail/video');
+                mediaFactory.resolve(element.data, { width: "100%", height: "100%" }).toHtml(function(err, html) {
+                  $('.videoplayer', $(element.htmlEl)).html(html);
+                });
+              }
             }
           ]
         }

@@ -271,8 +271,8 @@ return {
           },
           onAfterRefresh : function() {
             var element = params.app.ui.element(params.treePosition + '/detail/video');
-            mediaFactory.resolve(element.data, { width: "100%" }).toHtml(function(err, html) {
-              $('.videoplayer', $(element.htmlEl)).html(html);
+            mediaFactory.resolve(element.data, { width: $(element.htmlEl).width() }).toHtml(function(err, html) {
+              mediaFactory.insertFragment( html, $('.videoplayer', $(element.htmlEl)).get(0) );
             });
             element.insertScroller();
           }

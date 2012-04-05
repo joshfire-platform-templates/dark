@@ -84,9 +84,11 @@ Joshfire.define(['joshfire/uielements/list', 'joshfire/uielements/panel', 'joshf
                     '</div>' +
                   '</div>',
 
-    tplItemPreview :  '<% if (item.image) { %>' +
-                        '<div class="preview"><img src="<%= item.image.contentURL %>"></div>' +
-                      '<% } %>',
+    tplItemPreview :  '<div class="preview">' +
+                        '<% if (item.image) { %>' +
+                          '<img src="<%= item.image.contentURL %>">' +
+                        '<% } %>'+
+                      '</div>',
 
     tplItemThumbnail :  '<% if (item.image && item.image.contentURL) { %>' +
                           '<div class="thumbnail" style="background-image:url(\'<%=item.image.contentURL%>\')"></div>' +

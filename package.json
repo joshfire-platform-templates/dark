@@ -1,6 +1,6 @@
 {
   "name": "dark",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "fullName": "Dark",
   "description": "A template with a dark color scheme. It has the same features as the \"Base\" template and can be used for any purpose.\n\nThe template generates tabular applications that may feature an agenda, a generic purpose list, an news page with RSS content, photos and videos gallery and a static about page.\n\nThe template detects the type of datasources set in the configuration settings and adjusts the available tabs accordingly. For instance, the template displays a schedule view when it detects an ical datasource, a news page when it detects RSS content and a generic purpose list if the datasource is a standard spreadsheet.",
   "keywords": [
@@ -25,7 +25,7 @@
         "devices": "tablet",
         "startfile": "app/index.tablet.html",
         "images":"marketing/preview-tablet.png",
-        "screenshots":["marketing/screenshot-tablet-1.png", "marketing/screenshot-tablet-2.png", "marketing/screenshot-tablet-3.png"]  
+        "screenshots":["marketing/screenshot-tablet-1.png", "marketing/screenshot-tablet-2.png", "marketing/screenshot-tablet-3.png"]
       }
     ],
     "datasources": {
@@ -45,7 +45,7 @@
         "datasources.main",
         {
           "key": "abouthtml",
-          "type": "textarea"
+          "type": "wysihtml5"
         }
       ]
     },
